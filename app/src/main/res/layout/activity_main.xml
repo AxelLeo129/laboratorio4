@@ -6,13 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="350sp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="16dp"
+        android:hint="@string/ingresa_el_nombre_del_pok_mon"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:translationX="20sp"
+        android:translationY="150sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="64dp" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="265sp"
+        android:layout_height="50dp"
+        android:text="Buscar"
+        android:translationX="60sp"
+        android:translationY="210sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="42dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">laboratorio4</string>
+    <string name="ingresa_el_nombre_del_pok_mon">Ingresa el nombre del Pokémon</string>
 </resources>
