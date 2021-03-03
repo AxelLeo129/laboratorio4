@@ -1,17 +1,28 @@
 package com.example.laboratorio4
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.app.Activity.*
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.coroutines.CoroutineContext
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,35 +31,74 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val buscar: Button = findViewById(R.id.button)
+        var imagen_pokemon = findViewById<ImageView>(R.id.PokemonImage)
+        val uiHandler = Handler(Looper.getMainLooper())
+        uiHandler.post(Runnable {
+            Picasso.get().load("https://cdn2.iconfinder.com/data/icons/font-awesome/1792/search-512.png").into(imagen_pokemon)
+        })
 
         buscar.setOnClickListener {
             val texto: EditText = findViewById(R.id.editText)
-             searchByName("${texto.text}")
+            var texto_error = findViewById<TextView>(R.id.TextErrors)
+            var texto_view: String = "${texto.text}".toLowerCase()
+            if(texto_view != "") {
+                hide(texto, texto_view, true)
+                texto.clearFocus()
+                texto_error.text = ""
+            } else {
+                texto_error.text = "Por favor ingrese un nombre"
+            }
         }
 
     }
 
-    private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
+    private fun hide(editText: EditText, valor: String, hide: Boolean) {
+        editText.setOnKeyListener(View.OnKeyListener{v, keyCode, event ->
+            Log.e("Main", "Error: ${hide.toString()}")
+            if((keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP ) || hide) {
+                makeApiRequest(valor)
+                return@OnKeyListener true
+            }
+            false
+        })
+    }
+
+    private fun makeApiRequest(nombre_pokemon: String) {
+        Log.e("Main", "Error: ${nombre_pokemon}")
+        val api = Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/pokemon/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
+            .create(ApiService::class.java)
 
-    private fun searchByName(nombre: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val call = getRetrofit().create(ApiService::class.java).getPokemonByName("$nombre/")
-            val pokemon = call.body() as PokemonResponse
-            if(call.isSuccessful) {
-                showToast("Funciona " + pokemon.nombre)
-            } else {
-                showToast("No funciona")
+            var imagen_pokemon = findViewById<ImageView>(R.id.PokemonImage)
+            var experiencia_base_pokemon = findViewById<TextView>(R.id.PokemonExpBase)
+            var altura_pokemon = findViewById<TextView>(R.id.PokemonHeight)
+            var peso_pokemon = findViewById<TextView>(R.id.PokemonWeight)
+            var nombre_text_pokemon = findViewById<TextView>(R.id.PokemonName)
+            try {
+                val response = api.getPokemonByName("$nombre_pokemon/")
+                val uiHandler = Handler(Looper.getMainLooper())
+                uiHandler.post(Runnable {
+                    Picasso.get().load(response.sprites.front_default).into(imagen_pokemon)
+                })
+                nombre_text_pokemon.text = "Nombre del Pokémon: ${response.name}"
+                experiencia_base_pokemon.text = "Experiencia base: ${response.base_experience}"
+                altura_pokemon.text = "Altura: ${response.height}"
+                peso_pokemon.text = "Peso: ${response.weight}"
+            } catch (e: Exception) {
+                val uiHandler = Handler(Looper.getMainLooper())
+                uiHandler.post(Runnable {
+                    Picasso.get().load("https://images.vexels.com/media/users/3/153978/isolated/preview/483ef8b10a46e28d02293a31570c8c56-icono-de-trazo-de-color-de-se-ntilde-al-de-advertencia-by-vexels.png").into(imagen_pokemon)
+                })
+                nombre_text_pokemon.text = "Pokémon no encontrado, \npor favor verifique el nombre."
+                experiencia_base_pokemon.text = ""
+                altura_pokemon.text = ""
+                peso_pokemon.text = ""
+                Log.e("Main", "Error: ${e.message}")
             }
         }
-    }
-
-    private fun showToast(titulo: String) {
-        Toast.makeText(this, titulo, Toast.LENGTH_SHORT).show()
     }
 
 }

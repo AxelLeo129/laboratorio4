@@ -15,10 +15,25 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:translationX="20sp"
-        android:translationY="150sp"
+        android:translationY="120sp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="64dp" />
+
+    <TextView
+        android:id="@+id/TextErrors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#EC0F0F"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:translationX="60sp"
+        android:translationY="160sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="64dp" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="265sp"
@@ -29,5 +44,59 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="55dp"
         tools:layout_editor_absoluteY="42dp" />
+
+    <ImageView
+        android:id="@+id/PokemonImage"
+        android:layout_width="88dp"
+        android:layout_height="87dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"
+        android:translationX="150sp"
+        android:translationY="300sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="189dp"
+        tools:layout_editor_absoluteY="311dp" />
+
+    <TextView
+        android:id="@+id/PokemonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:translationX="60sp"
+        android:translationY="410sp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/PokemonExpBase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:translationX="60sp"
+        android:translationY="440sp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/PokemonHeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:translationX="60sp"
+        android:translationY="470sp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/PokemonWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:translationX="60sp"
+        android:translationY="500sp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
