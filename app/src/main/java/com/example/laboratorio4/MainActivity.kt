@@ -1,21 +1,14 @@
 package com.example.laboratorio4
 
-import android.app.Activity
 import android.app.Activity.*
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,8 +34,8 @@ class MainActivity : AppCompatActivity() {
             val texto: EditText = findViewById(R.id.editText)
             var texto_error = findViewById<TextView>(R.id.TextErrors)
             var texto_view: String = "${texto.text}".toLowerCase()
-            if(texto_view != "") {
-                hide(texto, texto_view, true)
+            if(!texto_view.equals("")) {
+                makeApiRequest(texto_view)
                 texto.clearFocus()
                 texto_error.text = ""
             } else {
@@ -52,11 +45,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun hide(editText: EditText, valor: String, hide: Boolean) {
+    private fun hide(editText: EditText) {
         editText.setOnKeyListener(View.OnKeyListener{v, keyCode, event ->
-            Log.e("Main", "Error: ${hide.toString()}")
-            if((keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP ) || hide) {
-                makeApiRequest(valor)
+            if((keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP )) {
                 return@OnKeyListener true
             }
             false
