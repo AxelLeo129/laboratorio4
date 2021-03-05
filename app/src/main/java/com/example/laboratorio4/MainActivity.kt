@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         var imagen_pokemon = findViewById<ImageView>(R.id.PokemonImage)
         val uiHandler = Handler(Looper.getMainLooper())
         uiHandler.post(Runnable {
-            Picasso.get().load("https://cdn2.iconfinder.com/data/icons/font-awesome/1792/search-512.png").into(imagen_pokemon)
+            Picasso.get().load("https://www.skillsforcare.org.uk/site-elements/images/icons/Orange-Search-Icon.png").into(imagen_pokemon)
         })
 
         buscar.setOnClickListener {
